@@ -1,0 +1,15 @@
+{
+  "name": "vsl-accountability-hub",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod",
+    "db:push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.10",
+    "@neondatabase/serverless": "^0.9.4",
+    "drizzle-kit": "^0.20.18"
+  }
+}
