@@ -1,5 +1,29 @@
 {
-  "name": "vsl-api",
+  "name": "vsl-accountability-hub",
   "version": "1.0.0",
-  "type": "module"
+  "type": "module",
+  "description": "VSLA Accountability System - Village Savings and Loan Association Platform",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "node --watch api/server.js",
+    "dev:client": "cd client && npm run dev",
+    "build": "npm run build:client && npm run build:server",
+    "build:server": "echo 'Server ready'",
+    "build:client": "cd client && npm run build",
+    "start": "node api/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "pg": "^8.9.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1",
+    "axios": "^1.3.4"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
 }
