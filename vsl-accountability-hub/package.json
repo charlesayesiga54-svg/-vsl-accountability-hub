@@ -1,20 +1,15 @@
-
-"devDependencies": {
-  "typescript": "^5.0.0",
-  "@types/node": "^20.0.0"
-}
 {
   "name": "vsl-accountability-hub",
   "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vercel dev",
-    "deploy": "vercel --prod",
-    "db:push": "drizzle-kit push"
-  },
+  "private": true,
   "dependencies": {
-    "drizzle-orm": "^0.30.10",
+    "pg": "^8.11.3",
     "@neondatabase/serverless": "^0.9.4",
     "drizzle-kit": "^0.20.18"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.0.0",
+    "@vercel/node": "^5.0.0"
   }
 }
