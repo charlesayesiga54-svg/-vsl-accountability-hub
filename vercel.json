@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSLA Accountability Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="alert-container"></div>
+
+    <!-- AUTH VIEW -->
+    <div id="auth-view" class="auth-container">
+        <div class="auth-box">
+            <h1>VSLA Accountability Hub</h1>
+            <p class="subtitle">Village Savings & Loan Association Management</p>
+
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" onclick="switchAuthTab('group')">Group Portal</button>
+                <button class="auth-tab-btn" onclick="switchAuthTab('dev')">Developer Access</button>
+            </div>
+
+            <!-- Group Login -->
+            <form id="login-form" class="auth-form">
+                <h2>Member / Secretary Login</h2>
+                <input type="text" id="group-id" placeholder="Group ID e.g. GROUP-001" required>
+                <input type="text" id="membership-no" placeholder="Membership No e.g. VSG-001" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+
+            <!-- Developer Login -->
+            <form id="dev-login-form" class="auth-form hidden">
+                <h2>Developer Login</h2>
+                <input type="password" id="dev-password" placeholder="Developer Password" required>
+                <button type="submit" class="btn-primary">Access Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- APP VIEW -->
+    <div id="app-view" class="app-container hidden">
+        <header class="app-header">
+            <div>
+                <h1>VSLA Hub</h1>
+                <p id="group-info"></p>
+            </div>
+            <div class="user-menu">
+                <span id="user-info"></span>
+                <button id="logout-btn" class="btn-secondary">Logout</button>
+            </div>
+        </header>
+
+        <nav id="nav-tabs" class="nav-tabs">
+            <button class="tab-button active" data-tab="dashboard-tab">Dashboard</button>
+            <button class="tab-button member-only" data-tab="members-tab">Members</button>
+            <button class="tab-button member-only" data-tab="savings-tab">Savings</button>
+            <button class="tab-button member-only" data-tab="loans-tab">Loans</button>
+            <button class="tab-button member-only" data-tab="attendance-tab">Attendance</button>
+            <button class="tab-button member-only" data-tab="announcements-tab">Announcements</button>
+            <button class="tab-button member-only" data-tab="reports-tab">Reports</button>
+
+            <!-- Developer Tabs -->
+            <button class="tab-button dev-only hidden" data-tab="dev-groups-tab">Manage Groups</button>
+            <button class="tab-button dev-only hidden" data-tab="dev-password-tab">Settings</button>
+        </nav>
+
+        <main id="tab-content" class="tab-content">
+
+            <!-- DASHBOARD -->
+            <div id="dashboard-tab" class="tab-pane active">
+                <h2>Dashboard Summary</h2>
+                <div class="dashboard-grid">
+                    <div class="card"><h3>Total Savings</h3><p id="total-savings">UGX 0</p></div>
+                    <div class="card"><h3>Total Loans Out</h3><p id="total-loans">UGX 0</p></div>
+                    <div class="card"><h3>Cash Available</h3><p id="cash-available">UGX 0</p></div>
+                    <div class="card"><h3>Overdue Loans</h3><p id="overdue-loans">UGX 0</p></div>
+                    <div class="card"><h3>Active Members</h3><p id="active-members">0</p></div>
+                    <div class="card"><h3>Total Interest</h3><p id="total-interest">UGX 0</p></div>
+                </div>
+            </div>
+
+            <!-- MEMBERS -->
+            <div id="members-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h2>Members</h2>
+                    <button class="btn-primary secretary-only" onclick="openModal('addMember')">+ Add Member</button>
+                </div>
+                <table><thead><tr><th>No.</th><th>Name</th><th>Phone</th><th>Role</th><th>Status</th><th class="secretary-only">Actions</th></tr></thead><tbody id="members-table-body"></tbody></table>
+            </div>
+
+            <!-- SAVINGS -->
+            <div id="savings-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h2>Savings Ledger</h2>
+                    <button class="btn-primary secretary-only" onclick="openModal('savings')">+ Record Savings</button>
+                </div>
+                <table><thead><tr><th>Date</th><th>Member</th><th>Amount</th><th>Recorded By</th></tr></thead><tbody id="savings-table-body"></tbody></table>
+            </div>
+
+            <!-- LOANS -->
+            <div id="loans-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h2>Loans</h2>
+                    <button class="btn-primary secretary-only" onclick="openModal('loan')">+ Issue Loan</button>
+                </div>
+                <table><thead><tr><th>Member</th><th>Principal</th><th>Interest</th><th>Balance</th><th>Status</th><th class="secretary-only">Actions</th></tr></thead><tbody id="loans-table-body"></tbody></table>
+            </div>
+
+            <!-- ATTENDANCE -->
+            <div id="attendance-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h2>Attendance</h2>
+                    <button class="btn-primary secretary-only" onclick="openModal('attendance')">+ Record Meeting</button>
+                </div>
+                <div id="attendance-list"></div>
+            </div>
+
+            <!-- ANNOUNCEMENTS -->
+            <div id="announcements-tab" class="tab-pane">
+                <div class="tab-header">
+                    <h2>Announcements</h2>
+                    <button class="btn-primary secretary-only" onclick="openModal('announcement')">+ New Announcement</button>
+                </div>
+                <div id="announcements-list"></div>
+            </div>
+
+            <!-- REPORTS -->
+            <div id="reports-tab" class="tab-pane">
+                <h2>Reports & Backup</h2>
+                <button class="btn-secondary" onclick="exportReport('PDF')">Export PDF Report</button>
+                <button class="btn-secondary" onclick="exportReport('Excel')">Export Excel</button>
+                <button class="btn-secondary secretary-only" onclick="backupData()">Backup JSON</button>
+            </div>
+
+            <!-- DEV GROUPS -->
+            <div id="dev-groups-tab" class="tab-pane dev-only">
+                <div class="tab-header">
+                    <h2>Manage Groups</h2>
+                    <button class="btn-primary" onclick="openModal('createGroup')">+ Create Group</button>
+                </div>
+                <table><thead><tr><th>Group ID</th><th>Name</th><th>Members</th><th>Broadcast</th><th>Actions</th></tr></thead><tbody id="groups-table-body"></tbody></table>
+            </div>
+
+            <!-- DEV SETTINGS -->
+            <div id="dev-password-tab" class="tab-pane dev-only">
+                <h2>Change Developer Password</h2>
+                <form id="change-dev-pass-form">
+                    <input type="password" name="oldPassword" placeholder="Old Password" required>
+                    <input type="password" name="newPassword" placeholder="New Password" required>
+                    <button type="submit" class="btn-primary">Update Password</button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <div id="add-member-modal" class="modal hidden">
+        <div class="modal-content"><span class="close" onclick="closeModal('addMember')">&times;</span>
+            <h2>Add New Member</h2>
+            <form id="add-member-form">
+                <input name="membershipNo" placeholder="Membership No" required>
+                <input name="name" placeholder="Full Name" required>
+                <input name="phone" placeholder="Phone" required>
+                <select name="role"><option>Member</option><option>Secretary</option></select>
+                <input name="password" type="password" placeholder="Password" required>
+                <select name="status"><option>Active</option><option>Inactive</option></select>
+                <input name="actorId" type="hidden">
+                <button type="submit" class="btn-primary">Save Member</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="record-savings-modal" class="modal hidden">
+        <div class="modal-content"><span class="close" onclick="closeModal('savings')">&times;</span>
+            <h2>Record Savings</h2>
+            <form id="record-savings-form">
+                <select name="memberId" required></select>
+                <input name="amount" type="number" step="0.01" placeholder="Amount" required>
+                <input name="transactionDate" type="date" required>
+                <input name="recordedBy" placeholder="Recorded By" required>
+                <textarea name="notes" placeholder="Notes"></textarea>
+                <input name="actorId" type="hidden">
+                <button type="submit" class="btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add other modals: loan, repayment, attendance, announcement, createGroup here -->
+
+    <script src="js/app.js"></script>
+    <script>
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.add('hidden'));
+            document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
+            if(tab === 'group') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.querySelectorAll('.auth-tab-btn')[0].classList.add('active');
+            } else {
+                document.getElementById('dev-login-form').classList.remove('hidden');
+                document.querySelectorAll('.auth-tab-btn')[1].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
