@@ -8,6 +8,11 @@ import membersRoutes from './routes/members.js';
 import savingsRoutes from './routes/savings.js';
 import loansRoutes from './routes/loans.js';
 import dashboardRoutes from './routes/dashboard.js';
+import transactionsRoutes from './routes/transactions.js';
+import finesRoutes from './routes/fines.js';
+import meetingsRoutes from './routes/meetings.js';
+import notificationsRoutes from './routes/notifications.js';
+import reportsRoutes from './routes/reports.js';
 
 dotenv.config();
 
@@ -24,12 +29,17 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running', timestamp: new Date().toISOString() });
 });
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/members', membersRoutes);
 app.use('/api/savings', savingsRoutes);
 app.use('/api/loans', loansRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/transactions', transactionsRoutes);
+app.use('/api/fines', finesRoutes);
+app.use('/api/meetings', meetingsRoutes);
+app.use('/api/notifications', notificationsRoutes);
+app.use('/api/reports', reportsRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -46,4 +56,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 VSLA Accountability System API running on http://localhost:${PORT}`);
   console.log(`📝 API Health: http://localhost:${PORT}/api/health`);
+  console.log(`📚 Database: ${process.env.DB_NAME || 'vsl_accountability'}`);
 });
