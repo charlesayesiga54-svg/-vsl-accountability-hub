@@ -1,8 +1,7 @@
-{
-  "version": 2,
-  "functions": {
-    "api/index.ts": {
-      "runtime": "@vercel/node"
-    }
-  }
-}
+   {
+     "functions": {
+       "api/index.ts": {
+         "runtime": "nodejs20.x"
+       }
+     }
+   }
