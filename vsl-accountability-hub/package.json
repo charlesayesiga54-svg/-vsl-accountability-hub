@@ -1,15 +1,5 @@
 {
   "name": "vsl-accountability-hub",
   "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "pg": "^8.11.3",
-    "@neondatabase/serverless": "^0.9.4",
-    "drizzle-kit": "^0.20.18"
-  },
-  "devDependencies": {
-    "typescript": "^5.3.3",
-    "@types/node": "^20.0.0",
-    "@vercel/node": "^5.0.0"
-  }
+  "dependencies": {}
 }
